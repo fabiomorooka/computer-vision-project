@@ -19,5 +19,5 @@ class ParametersDataExtractor(object):
 
     @staticmethod
     def _get_file_from_local_directory():
-        with open(build_path(get_resources_folder(), 'hparams_configuration.json'), 'r') as hparams_infomation_file:
-            return json.load(hparams_infomation_file)
+        with open(build_path(get_resources_folder(), 'plot_configuration.json'), 'r') as plot_infomation_file:
+            return json.load(plot_infomation_file)

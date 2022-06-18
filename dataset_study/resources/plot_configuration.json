@@ -1,0 +1,12 @@
+{
+    "ParametersSettings": {
+        "PlotParamenters": {
+            "Examples": "True",
+            "ConfusionMatrix": "True",
+            "Histogram": "True",
+            "PCA": "True", 
+            "PrecisionRecall": "True",
+            "ROC": "True"
+        }   
+    }
+}    

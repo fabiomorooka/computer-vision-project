@@ -3,9 +3,9 @@ from services.hparams.data_extractor import ParametersDataExtractor
 
 
 class RawFieldNames(object):
-    PARAMETERS_KEY = "ParametersSettings"
-    TRAINING_INFO = "TrainingParameters"
-    TEST_INFO = "TestingParameters"
+    PARAMETERS_KEY = 'ParametersSettings'
+    TRAINING_INFO = 'TrainingParameters'
+    TEST_INFO = 'TestingParameters'
 
 
 class TrainParametersParser(object):

@@ -42,7 +42,7 @@ class MulticlassTrainModel():
       train_loss = accumulated_loss / len(self.train_dataloader.dataset)
       self.run['train/loss'].log(train_loss)
       
-      # Validation loop
+      # validation loop
       accumulated_loss = 0
       accumulated_accuracy = 0
       self.model.eval()
@@ -80,11 +80,11 @@ class MulticlassTrainModel():
         best_epoch = epoch+1
         print(f'best model')
 
-    print(f"########### FINAL RESULTS ####################")
+    print(f'########### FINAL RESULTS ####################')
     print(f'Final loss: {best_valid_loss}')
     print(f'Final accuracy: {100*best_accuracy:.6f}%')
     print(f'at epoch:', best_epoch)
-    print(f"##############################################")
+    print(f'##############################################')
 
   def evaluate(self, test_dataloader, device):
     self.model.load_state_dict(torch.load(self.file_name+'.pt'))
