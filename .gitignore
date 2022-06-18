@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Neptune notebook
+*/.neptune
+
+# Auxiliary folders folder
+*/data/
+*/plot/
+
+# Pytorch models
+*.pt
