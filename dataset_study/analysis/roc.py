@@ -23,7 +23,7 @@ def plot(gt_values, pca_x, y_train, model, label_list, path, name=None):
   tpr = dict()
   roc_auc = dict()
   for i in range(len(set(y_train))):
-      fpr[i], tpr[i], _ = roc_curve(gt_values[:, i], model.predict_proba(pca_x)[:,i])
+      fpr[i], tpr[i], _ = roc_curve(gt_values[:, i], model.predict(pca_x)[:,i])
       roc_auc[i] = auc(fpr[i], tpr[i])
 
   fig, axs = plt.subplots(10,4,figsize=(30,25))
@@ -35,8 +35,8 @@ def plot(gt_values, pca_x, y_train, model, label_list, path, name=None):
       axs[i,j].set_title('Category ' + label_list[pos] + ' ROC Curve')
       axs[i,j].set_xlabel('False Positive Rate')
       axs[i,j].set_ylabel('True Positive Rate')
-      axs[i,j].legend(loc="lower right")
+      axs[i,j].legend(loc='lower right')
       pos += 1
 
-  plt.title("ROC curve and area for {name} set")
+  plt.title('ROC curve and area for {name} set')
   plt.savefig(path)

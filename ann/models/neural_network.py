@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class NeuralNetwork(torch.nn.Module):
+class NeuralNetwork(nn.Module):
     def __init__(self, input_size, hidden_size, hidden_layers, weight_init, output_size, p_dropout = 0.00):
         super(NeuralNetwork, self).__init__()
         self.input_size = input_size
@@ -17,15 +17,15 @@ class NeuralNetwork(torch.nn.Module):
         layers = []
         for i in range(self.hidden_layers):
           if i < 1: 
-            layers.append(torch.nn.Linear(self.input_size, self.hidden_size, bias=True, dtype=torch.float64))
-            layers.append(torch.nn.ReLU())
+            layers.append(nn.Linear(self.input_size, self.hidden_size, bias=True, dtype=torch.float64))
+            layers.append(nn.ReLU())
           else : 
-            layers.append(torch.nn.Linear(self.hidden_size, self.hidden_size, bias=True, dtype=torch.float64))
-            layers.append(torch.nn.ReLU())
+            layers.append(nn.Linear(self.hidden_size, self.hidden_size, bias=True, dtype=torch.float64))
+            layers.append(nn.ReLU())
             
-        self.layer = torch.nn.Sequential(*layers)
-        self.relu = torch.nn.ReLU()
-        self.output = torch.nn.Linear(self.hidden_size, self.output_size, bias=True, dtype=torch.float64)
+        self.layer = nn.Sequential(*layers)
+        self.relu = nn.ReLU()
+        self.output = nn.Linear(self.hidden_size, self.output_size, bias=True, dtype=torch.float64)
 
     def forward(self, x):
         hidden = self.layer(x)

@@ -3,7 +3,7 @@ import torch
 from tqdm import tqdm
 
 
-class MulticlassTrainModel():
+class TrainModel():
   def __init__(self, model, criterion, optimizer, train_dataloader, valid_dataloader, run, file_name):
     self.model = model
     self.criterion = criterion
@@ -21,15 +21,15 @@ class MulticlassTrainModel():
       accumulated_loss = 0
       winners = 0
       for x_train, y_train in tqdm(self.train_dataloader):
-        x_train = x_train.double().to(device)
-        y_train = y_train.double().to(device)
+        x_train = x_train.to(device)
+        y_train = y_train.long().to(device)
 
         # Forward pass
         pred_y = self.model(x_train)
 
         # Compute loss
         batch_loss = self.criterion(pred_y, y_train)
-
+    
         # Zero gradients
         self.optimizer.zero_grad()
         
@@ -41,15 +41,14 @@ class MulticlassTrainModel():
       
       train_loss = accumulated_loss / len(self.train_dataloader.dataset)
       self.run['train/loss'].log(train_loss)
-      
-      # Validation loop
+
+       # validation loop
       accumulated_loss = 0
       accumulated_accuracy = 0
       self.model.eval()
       for x_valid, y_valid in tqdm(self.valid_dataloader):
-        x_valid = x_valid.double().to(device)
-        y_valid = y_valid.double().to(device)
-
+        x_valid = x_valid.to(device)
+        y_valid = y_valid.long().to(device)
         with torch.no_grad():
           # Forward pass
           pred_y = self.model(x_valid)
@@ -58,10 +57,9 @@ class MulticlassTrainModel():
 
           # Compute accuracy
           winners = pred_y.argmax(dim=1)
-          target = y_valid.argmax(dim=1)
+          target = y_valid
 
           batch_accuracy = (winners == target).sum()
-
           accumulated_loss += batch_loss
           accumulated_accuracy += batch_accuracy
 
@@ -69,7 +67,7 @@ class MulticlassTrainModel():
       valid_acc = accumulated_accuracy / len(self.valid_dataloader.dataset)
       self.run['valid/loss'].log(valid_loss)
       self.run['valid/acuracy'].log(valid_acc)
-          
+      
       print(f'Epoch: {epoch:d}/{epochs:d} Train Loss: {train_loss:.6f} Valid Loss: {valid_loss:.6f} | Val accuracy = {100*valid_acc:.6f}%')
 
       # Salvando o melhor modelo de acordo com a loss de validação
@@ -80,11 +78,11 @@ class MulticlassTrainModel():
         best_epoch = epoch+1
         print(f'best model')
 
-    print(f"########### FINAL RESULTS ####################")
+    print(f'########### FINAL RESULTS ####################')
     print(f'Final loss: {best_valid_loss}')
     print(f'Final accuracy: {100*best_accuracy:.6f}%')
     print(f'at epoch:', best_epoch)
-    print(f"##############################################")
+    print(f'##############################################')
 
   def evaluate(self, test_dataloader, device):
     self.model.load_state_dict(torch.load(self.file_name+'.pt'))
@@ -92,8 +90,8 @@ class MulticlassTrainModel():
     accumulated_accuracy = 0
     self.model.eval()
     for x_test, y_test in tqdm(test_dataloader):
-      x_test = x_test.double().to(device)
-      y_test = y_test.double().to(device)
+      x_test = x_test.to(device)
+      y_test = y_test.long().to(device)
 
       with torch.no_grad():
         # predict da rede
@@ -105,7 +103,7 @@ class MulticlassTrainModel():
 
         # Compute accuracy
         winners = pred_y.argmax(dim=1)
-        target = y_test.argmax(dim=1)
+        target = y_test
         batch_accuracy = (winners == target).sum()
         accumulated_accuracy += batch_accuracy
 
@@ -113,3 +111,5 @@ class MulticlassTrainModel():
     test_acc = accumulated_accuracy / len(test_dataloader.dataset)
     print(f'The final accuracy of the model using the (reduced) test dataset is: {100*test_acc:.6f}%')
     return test_loss, test_acc
+
+  
