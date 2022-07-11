@@ -5,6 +5,7 @@ from models.multi_class_logistic_regression import MultiClassLogisticRegression
 from services.plot.parser import PlotParametersParser
 from utils import configuration as config
 from utils import file_read_handler as read
+from utils import image_processing as img
 
 TRAFFIC_SIGNS_DIRECTORY = 'traffic_signs'
 TRAIN_PICKLE_NAME = 'train'
@@ -65,6 +66,8 @@ def main():
 
     if eval(PLOT_PARAMS['Examples']):
         examples.plot(x_train, y_train, label_list, config.get_plot_path('examples', 'examples'))
+        gray_x_train = img.to_gray(x_train)
+        examples.plot_gray(gray_x_train, y_train, label_list, config.get_plot_path('examples_gray', 'examples'))
 
     if eval(PLOT_PARAMS['ConfusionMatrix']):
         confusion_matrix.plot(y_train, label_list, config.get_plot_path('train', 'confusion_matrix'), 'train')
@@ -88,7 +91,9 @@ def main():
     if eval(PLOT_PARAMS['PCA']):
         pca.plot(x_train, config.get_plot_path('train', 'pca'), 'train')
     
-    regression(x_train, y_train, x_valid, y_valid, x_test, y_test, label_list)
+    
+    if eval(PLOT_PARAMS['PrecisionRecall']) or eval(PLOT_PARAMS['ROC']):
+        regression(x_train, y_train, x_valid, y_valid, x_test, y_test, label_list)
 
 if __name__ == '__main__':
     main()

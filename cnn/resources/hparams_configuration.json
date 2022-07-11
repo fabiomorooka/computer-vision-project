@@ -1,0 +1,25 @@
+{
+    "ParametersSettings": {
+        "TrainingParameters": {
+            "CNN": {
+                "model_name": "cnn",
+                "learning_rate": 1e-4,
+                "n_epochs": 25,
+                "batch_size": 16,
+                "categories": 43
+            }   
+        },
+        "TestingParameters": {
+            "BestModel": {
+                "model_name": "best-model",
+                "learning_rate": 1e-3,
+                "n_epochs": 50,
+                "batch_size": 64,
+                "categories": 43,
+                "hidden_size": 254,
+                "hidden_layers": 5
+            }
+        }
+    }
+     
+}

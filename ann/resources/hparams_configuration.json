@@ -4,7 +4,7 @@
             "SimpleNN": {
                 "model_name": "simple-nn",
                 "learning_rate": 1e-3,
-                "n_epochs": 10,
+                "n_epochs": 20,
                 "batch_size": 32,
                 "categories": 43,
                 "hidden_size": 128,
@@ -13,7 +13,7 @@
             "ComplexNN-1": {
                 "model_name": "complex-nn-1",
                 "learning_rate": 1e-3,
-                "n_epochs": 10,
+                "n_epochs": 20,
                 "batch_size": 32,
                 "categories": 43,
                 "hidden_size": 128,
@@ -22,7 +22,7 @@
             "ComplexNN-2": {
                 "model_name": "complex-nn-2",
                 "learning_rate": 1e-3,
-                "n_epochs": 10,
+                "n_epochs": 20,
                 "batch_size": 64,
                 "categories": 43,
                 "hidden_size": 254,
@@ -31,18 +31,18 @@
             "ComplexNN-3": {
                 "model_name": "complex-nn-3",
                 "learning_rate": 1e-3,
-                "n_epochs": 10,
+                "n_epochs": 20,
                 "batch_size": 64,
                 "categories": 43,
                 "hidden_size": 254,
                 "hidden_layers": 5
-            }   
+            }
         },
         "TestingParameters": {
             "BestModel": {
                 "model_name": "best-model",
                 "learning_rate": 1e-3,
-                "n_epochs": 25,
+                "n_epochs": 50,
                 "batch_size": 64,
                 "categories": 43,
                 "hidden_size": 254,
