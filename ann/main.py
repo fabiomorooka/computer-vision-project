@@ -20,7 +20,7 @@ def main():
     valid_PICKLE_NAME = 'valid'
     TEST_PICKLE_NAME = 'test'
     LABEL_CSV_NAME = 'labels'
-    TRAIN_NAME = 'ComplexNN-3'
+    TRAIN_NAME = 'SimpleNN'
     hparams = TrainParametersParser().parse_train_parameters(TRAIN_NAME)
     dev = device.get_device()
 
