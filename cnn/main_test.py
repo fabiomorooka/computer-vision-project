@@ -7,7 +7,7 @@ from torchvision.transforms import ToTensor
 from datasets.img_traffic_signs import ImageTrafficSignsDataset
 
 from models.convolutional_neural_network import ConvolutionalNeuralNetwork
-from services.hparams.parser import TrainParametersParser
+from services.hparams.parser import TestParametersParser
 from trainers.cnn_trainer import CNNTrainModel
 from utils import configuration as config
 from services.trainning import device
@@ -22,8 +22,8 @@ def main():
     valid_PICKLE_NAME = 'valid'
     TEST_PICKLE_NAME = 'test'
     LABEL_CSV_NAME = 'labels'
-    TRAIN_NAME = 'CNN'
-    hparams = TrainParametersParser().parse_train_parameters(TRAIN_NAME)
+    TRAIN_NAME = 'BestModel'
+    hparams = TestParametersParser().parse_test_parameters(TRAIN_NAME)
     dev = device.get_device()
 
     train_path = config.get_pickle_path(TRAIN_PICKLE_NAME, TRAFFIC_SIGNS_DIRECTORY)
@@ -69,8 +69,8 @@ def main():
         break
 
     run = neptune.init(
-        project='master/ES952-NN',
-        api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJiZmMxYTgxZi04NjdiLTQ5ZjctYjYwOS0zOTlhZmYzNjZiNGYifQ==',
+        project="master/MasterDegreeProject-CNN",
+        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJiZmMxYTgxZi04NjdiLTQ5ZjctYjYwOS0zOTlhZmYzNjZiNGYifQ==",
     )  # your credentials
 
 
@@ -94,6 +94,7 @@ def main():
     # Train model
     trainer = CNNTrainModel(mlp, criterion, optimizer, train_loader, val_loader, run, hparams['model_name'])
     trainer.train(epochs = hparams['n_epochs'], device=dev)
+    trainer.evaluate(test_dataloader=test_loader, device=dev)
     
     run.stop()
 if __name__ == '__main__':
